@@ -96,8 +96,11 @@ function emptySquares() {
     return origBoard.filter(s => typeof s == 'number');
 }
 
-function bestSpot() { //Find all blank cells and get first element from blank cell. So the AI will always play the first slot
-    return emptySquares()[0];
+function bestSpot() { 
+    // //Find all blank cells and get first element from blank cell. So the AI will always play the first slot
+    // return emptySquares()[0];
+
+    return minimax(origBoard, aiPlayer).index;
 }
 
 function checkTie() {
@@ -110,4 +113,67 @@ function checkTie() {
         return true;
     }
     return false;
+}
+
+function minimax(newBoard, player) {
+    //  find the indexes of the available spots in the board and set them to a variable called availSpots
+    var availSpots = emptySquares();
+
+    // check terminal states
+    if (checkWin(newBoard, oPlayer)) {
+        return { score: -10 }; // O win
+    } else if (checkWin(newBoard, aiPlayer)) {
+        return { score: 10 }; // X win
+    } else if (availSpots.length === 0) {
+        return { score: 0 }; // tie
+    }
+    // Next, you need to collect the scores from each of the empty spots to evaluate later.
+    var moves = [];
+    //  Therefore, make an array called moves and loop through empty spots while collecting each move’s index and score in an object called move.
+    for (var i = 0; i < availSpots.length; i++) {
+        var move = {};
+        // Then, set the index number of the empty spot that was stored as a number in the origBoard to the index property of the move object
+        move.index = newBoard[availSpots[i]];
+        // set the empty spot on the newboard to the current player
+        newBoard[availSpots[i]] = player;
+
+        // store the object resulted from the minimax function call that includes a score property to the score property of the move object.
+        if (player == aiPlayer) {
+            var result = minimax(newBoard, oPlayer);
+            move.score = result.score;
+        } else {
+            var result = minimax(newBoard, aiPlayer);
+            move.score = result.score;
+        }
+
+        newBoard[availSpots[i]] = move.index;
+
+        // minimax reset new board to what it was before and pushes the move object to the moves aray
+        moves.push(move);
+    }
+
+    // Then, the minimax algorithm needs to evaluate the best move in the moves array
+    var bestMove;
+    // It should choose the move with the highest score when AI is playing and the move with the lowest score when the human is playing. So...
+    if (player === aiPlayer) {
+        // If the player is aiPlayer, it sets a variable called bestScore to a very low number and loops through the moves array, 
+        var bestScore = -10000;
+        for (var i = 0; i < moves.length; i++) {
+            // if a move has a higher score than bestScore, the algorithm stores that move
+            if (moves[i].score > bestScore) {
+                bestScore = moves[i].score;
+                bestMove = i; // In case there are moves with similar score, only the first one will be stored.
+            }
+        }
+    } else {
+        var bestScore = 10000;
+        for (var i = 0; i < moves.length; i++) {
+            if (moves[i].score < bestScore) {
+                bestScore = moves[i].score;
+                bestMove = i;
+            }
+        }
+    }
+
+    return moves[bestMove];
 }
