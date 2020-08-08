@@ -1,6 +1,7 @@
 
 var origBoard;
 const oPlayer = 'O';
+const aiPlayer = 'X'
 const winCombos = [
     //horizontal
     [0, 1, 2],
@@ -35,8 +36,13 @@ function turnClick(square) {
     // // write down the ID of any cell clicked
     // console.log(square.target.id)
 
-    // pass in the ID that clicking 
-    turn(square.target.id, oPlayer)
+    if (typeof origBoard[square.target.id] == 'number') { //If the clicked ID is "number", it means that both human and AI have not played in that position. So.....
+        // pass in the ID that clicking 
+        turn(square.target.id, oPlayer)
+
+        //After the player takes a turn, check to see if there is a tie
+        if (!checkTie()) turn(bestSpot(), aiPlayer);
+    }
 }
 
 function turn(squareId, objectPlayer) {
@@ -55,7 +61,7 @@ function checkWin(board, player) {
     let gameWon = null;
     for (let [index, win] of winCombos.entries())
     /* entries: Returns the enumerable property array of [key, value] pairs with the given object, similar to using the for ... in iteration. */ {
-        if (win.every(elem => plays.indexOf(elem) > -1))  
+        if (win.every(elem => plays.indexOf(elem) > -1))
         //In essence the every function has the same effect as using a loop to loop through all elements of the array. 
         //The indexOf function will look for an element in the array based on the value of the element, it returns the position (key) of the element if found, and -1 if it is not found.
         {
@@ -69,11 +75,39 @@ function checkWin(board, player) {
 
 //create highlights all cells that make up a victory and prevents the user from entering any more boxes
 function gameOver(gameWon) {
-	for (let index of winCombos[gameWon.index]) {
-		document.getElementById(index).style.backgroundColor =
-			gameWon.player == oPlayer ? "blue" : "red";
+    for (let index of winCombos[gameWon.index]) {
+        document.getElementById(index).style.backgroundColor =
+            gameWon.player == oPlayer ? "blue" : "red";
+    }
+    for (var i = 0; i < cells.length; i++) {
+        cells[i].removeEventListener('click', turnClick, false);
+    }
+
+    declareWinner(gameWon.player == oPlayer ? "You win!" : "You lose.");
+}
+
+function declareWinner(whoWin) {
+	document.querySelector(".endgame").style.display = "block";
+	document.querySelector(".endgame .text").innerText = whoWin;
+}
+
+function emptySquares() {
+    //filter every element from the board array
+	return origBoard.filter(s => typeof s == 'number');
+}
+
+function bestSpot() { //Find all blank cells and get first element from blank cell. So the AI will always play the first slot
+	return emptySquares()[0];
+}
+
+function checkTie() {
+	if (emptySquares().length == 0) {
+		for (var i = 0; i < cells.length; i++) {
+			cells[i].style.backgroundColor = "pink";
+			cells[i].removeEventListener('click', turnClick, false);
+		}
+		declareWinner("Tie Game!")
+		return true;
 	}
-	for (var i = 0; i < cells.length; i++) {
-		cells[i].removeEventListener('click', turnClick, false);
-	}
+	return false;
 }
