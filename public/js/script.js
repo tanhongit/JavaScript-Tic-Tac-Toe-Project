@@ -178,6 +178,7 @@ function minimax(newBoard, player) {
     return moves[bestMove];
 }
 
+// Replay Tic Tac Toe button
 const docStyle = document.documentElement.style
 const aElem = document.querySelector('a')
 const boundingClientRect = aElem.getBoundingClientRect()
