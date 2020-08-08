@@ -22,5 +22,10 @@ function turnClick(square) {
     console.log(square.target.id)
 
     // pass in the ID that clicking 
-    turn(square.target.id,oPlayer)
+    turn(square.target.id, oPlayer)
+}
+
+function turn(squareId, objectPlayer) {
+    origBoard[squareId] = objectPlayer; //shows the player who has clicked the cell
+    document.getElementById(squareId).innerText = objectPlayer; //put more string in the cell with the ID just called
 }
