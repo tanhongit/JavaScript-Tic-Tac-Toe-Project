@@ -84,6 +84,11 @@ function gameOver(gameWon) {
     }
 }
 
+function declareWinner(whoWin) {
+	document.querySelector(".endgame").style.display = "block";
+	document.querySelector(".endgame .text").innerText = whoWin;
+}
+
 function emptySquares() {
     //filter every element from the board array
 	return origBoard.filter(s => typeof s == 'number');
@@ -91,4 +96,16 @@ function emptySquares() {
 
 function bestSpot() { //Find all blank cells and get first element from blank cell. So the AI will always play the first slot
 	return emptySquares()[0];
+}
+
+function checkTie() {
+	if (emptySquares().length == 0) {
+		for (var i = 0; i < cells.length; i++) {
+			cells[i].style.backgroundColor = "pink";
+			cells[i].removeEventListener('click', turnClick, false);
+		}
+		declareWinner("Tie Game!")
+		return true;
+	}
+	return false;
 }
