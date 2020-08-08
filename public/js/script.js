@@ -96,7 +96,7 @@ function emptySquares() {
     return origBoard.filter(s => typeof s == 'number');
 }
 
-function bestSpot() { 
+function bestSpot() {
     // //Find all blank cells and get first element from blank cell. So the AI will always play the first slot
     // return emptySquares()[0];
 
@@ -176,4 +176,37 @@ function minimax(newBoard, player) {
     }
 
     return moves[bestMove];
+}
+
+const docStyle = document.documentElement.style
+const aElem = document.querySelector('a')
+const boundingClientRect = aElem.getBoundingClientRect()
+
+aElem.onmousemove = function (e) {
+
+    const x = e.clientX - boundingClientRect.left
+    const y = e.clientY - boundingClientRect.top
+
+    const xc = boundingClientRect.width / 2
+    const yc = boundingClientRect.height / 2
+
+    const dx = x - xc
+    const dy = y - yc
+
+    docStyle.setProperty('--rx', `${dy / -1}deg`)
+    docStyle.setProperty('--ry', `${dx / 10}deg`)
+}
+
+aElem.onmouseleave = function (e) {
+    docStyle.setProperty('--ty', '0')
+    docStyle.setProperty('--rx', '0')
+    docStyle.setProperty('--ry', '0')
+}
+
+aElem.onmousedown = function (e) {
+    docStyle.setProperty('--tz', '-25px')
+}
+
+document.body.onmouseup = function (e) {
+    docStyle.setProperty('--tz', '-12px')
 }

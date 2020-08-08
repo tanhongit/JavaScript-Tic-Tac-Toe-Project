@@ -1,38 +1,126 @@
+body {
+	background: #e0e5ec;
+}
+
 td {
-    border        : 2px solid #333;
-    height        : 100px;
-    width         : 100px;
-    text-align    : center;
-    vertical-align: middle;
-    font-family   : "Comic Sans MS", cursive, sans-serif;
-    font-size     : 70px;
-    cursor        : pointer;
+	border        : 2px solid #333;
+	height        : 100px;
+	width         : 100px;
+	text-align    : center;
+	vertical-align: middle;
+	font-family   : "Comic Sans MS", cursive, sans-serif;
+	font-size     : 70px;
+	cursor        : pointer;
 }
 
 table {
-    border-collapse: collapse;
-    position       : absolute;
-    left           : 50%;
-    margin-left    : -155px;
-    top            : 50px;
-}
-
-table tr:first-child td {
-    /* border-top: 0; */
+	border-collapse: collapse;
+	position       : absolute;
+	left           : 50%;
+	margin-left    : -155px;
+	top            : 100px;
 }
 
 .endgame {
-    display         : none;
-    width           : 200px;
-    top             : 120px;
-    background-color: rgba(37, 167, 54, 0.8);
-    position        : absolute;
-    left            : 50%;
-    margin-left     : -100px;
-    padding-top     : 50px;
-    padding-bottom  : 50px;
-    text-align      : center;
-    border-radius   : 5px;
-    color           : white;
-    font-size       : 2em;
+	display         : none;
+	width           : 200px;
+	top             : 120px;
+	background-color: rgba(37, 167, 54, 0.8);
+	position        : absolute;
+	left            : 50%;
+	margin-left     : -100px;
+	padding-top     : 50px;
+	padding-bottom  : 50px;
+	text-align      : center;
+	border-radius   : 5px;
+	color           : white;
+	font-size       : 2em;
+}
+
+button {
+	margin: 20px;
+}
+
+.custom-btn {
+	width        : 130px;
+	height       : 40px;
+	color        : #fff;
+	border-radius: 5px;
+	padding      : 10px 25px;
+	font-family  : 'Lato', sans-serif;
+	font-weight  : 500;
+	background   : transparent;
+	cursor       : pointer;
+	transition   : all 0.3s ease;
+	position     : relative;
+	display      : inline-block;
+	box-shadow   : inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
+		7px 7px 20px 0px rgba(0, 0, 0, .1),
+		4px 4px 5px 0px rgba(0, 0, 0, .1);
+}
+
+.btn-2 {
+	background: rgb(96, 9, 240);
+	background: linear-gradient(0deg, rgba(96, 9, 240, 1) 0%, rgba(129, 5, 240, 1) 100%);
+	border    : none;
+
+}
+
+.btn-2:before {
+	height: 0%;
+	width : 2px;
+}
+
+.btn-2:hover {
+	box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5),
+		-4px -4px 6px 0 rgba(116, 125, 136, .5),
+		inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
+		inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
+}
+
+@media (min-width: 1080px) {
+	.replay {
+		left           : 45%;
+		font-family    : "Comic Sans MS", cursive, sans-serif;
+		position       : relative;
+		display        : inline-block;
+		padding        : 1.2em 2em;
+		text-decoration: none;
+		text-align     : center;
+		cursor         : pointer;
+		user-select    : none;
+		color          : white;
+	}
+
+	.replay::before {
+		content      : '';
+		position     : absolute;
+		top          : 0;
+		left         : 0%;
+		bottom       : 0;
+		right        : 0;
+		background   : linear-gradient(135deg, #6e8efb, #a777e3);
+		border-radius: 4px;
+		transition   : box-shadow .5s ease, transform .2s ease;
+		will-change  : transform;
+		box-shadow   : 0 2px 5px rgba(0, 0, 0, .2);
+		transform    :
+			translateY(var(--ty, 0)) rotateX(var(--rx, 0)) rotateY(var(--ry, 0)) translateZ(var(--tz, -12px));
+	}
+
+	.replay:hover::before {
+		box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
+	}
+
+	.replay::after {
+		position      : relative;
+		display       : inline-block;
+		content       : attr(data-title);
+		transition    : transform .2s ease;
+		font-weight   : bold;
+		letter-spacing: .01em;
+		will-change   : transform;
+		transform     :
+			translateY(var(--ty, 0)) rotateX(var(--rx, 0)) rotateY(var(--ry, 0));
+	}
 }
