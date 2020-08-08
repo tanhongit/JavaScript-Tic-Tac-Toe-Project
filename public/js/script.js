@@ -66,3 +66,14 @@ function checkWin(board, player) {
     }
     return gameWon;
 }
+
+//create highlights all cells that make up a victory and prevents the user from entering any more boxes
+function gameOver(gameWon) {
+	for (let index of winCombos[gameWon.index]) {
+		document.getElementById(index).style.backgroundColor =
+			gameWon.player == oPlayer ? "blue" : "red";
+	}
+	for (var i = 0; i < cells.length; i++) {
+		cells[i].removeEventListener('click', turnClick, false);
+	}
+}
